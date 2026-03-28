@@ -16,7 +16,7 @@ export class ZaloPoll implements INodeType {
             displayName: 'Zalo Poll',
             name: 'zaloPoll',
             icon: 'file:../shared/zalo.svg',
-            group: ['Zalo'],
+            group: ['transform'],
             version: 1,
             subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
             description: 'Quản bình chọn Zalo',
@@ -163,7 +163,7 @@ export class ZaloPoll implements INodeType {
                     }
                     //Lấy thông tin bình chọn
                     else if (operation === 'getPoll') {
-                        const poll_id = this.getNodeParameter('poll_id', i) as string;
+                        const poll_id = this.getNodeParameter('poll_id', i) as number;
                         // Log the parameters before sending
 				        this.logger.info(`Get poll with parameters: ${JSON.stringify(poll_id)}`);
 

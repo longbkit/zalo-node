@@ -6,7 +6,7 @@ import {
 	NodeOperationError,
 } from 'n8n-workflow';
 import { zaloUserOperations, zaloUserFields } from './ZaloUserDescription';
-import { API, ThreadType, Zalo } from 'zca-js';
+import { API, Gender, ThreadType, Zalo } from 'zca-js';
 
 let api: API | undefined;
 
@@ -15,7 +15,7 @@ export class ZaloUser implements INodeType {
 		displayName: 'Zalo User',
 		name: 'zaloUser',
 		icon: 'file:../shared/zalo.svg',
-		group: ['Zalo'],
+		group: ['transform'],
 		version: 1,
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
 		description: 'Quản lý người dùng Zalo',
@@ -168,10 +168,16 @@ export class ZaloUser implements INodeType {
 					// Thay đổi cài đặt tài khoản
 					else if (operation === 'changeAccountSetting') {
 						const name = this.getNodeParameter('name', i) as string;
-						const dob = this.getNodeParameter('dob', i) as any;
+						const dob = this.getNodeParameter('dob', i) as string;
 						const gender = this.getNodeParameter('gender', i) as number;
 
-						const response = await api.updateProfile(name, dob, gender);
+						const response = await api.updateProfile({
+							profile: {
+								name,
+								dob: dob as `${string}-${string}-${string}`,
+								gender: gender as Gender,
+							},
+						});
 
 						returnData.push({
 							json: {

@@ -15,7 +15,7 @@ export class ZaloSendMessage implements INodeType {
 		displayName: 'Zalo Send Message',
 		name: 'zaloSendMessage',
 		icon: 'file:../shared/zalo.svg',
-		group: ['Zalo'],
+		group: ['transform'],
 		version: 4,
 		description: 'Gửi tin nhắn qua API Zalo sử dụng kết nối đăng nhập bằng cookie',
 		defaults: {
@@ -283,13 +283,7 @@ export class ZaloSendMessage implements INodeType {
 
 				//Send typing event
 				try {
-					const recipentObj = {
-						id : threadId,
-						type: type
-					}
-					const result = await api.sendTypingEvent(recipentObj.id, {
-						type: recipentObj.type
-					});
+					const result = await api.sendTypingEvent(threadId, type);
 					if (!!result) {
 						this.logger.info("Send! typing event")
 					}
